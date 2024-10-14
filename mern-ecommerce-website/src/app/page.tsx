@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { useState, useEffect, Suspense, useRef } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion'; // Import Framer Motion
 
 import Logo from "./assets/EverShop.png";
@@ -19,7 +19,6 @@ export default function Home() {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isApplied, setIsApplied] = useState(false);
   const [animationData, setAnimationData] = useState(null);
-  const lottieRef = useRef(null); // Ref to control Lottie
 
   // Dynamically load the animation data to avoid SSR issues
   useEffect(() => {
@@ -33,6 +32,7 @@ export default function Home() {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
+    
   };
 
   // Simulate applying the coupon code
@@ -49,14 +49,6 @@ export default function Home() {
   const closeFullScreen = () => {
     setIsFullScreen(false);
   };
-
-  useEffect(() => {
-    // Check if the Lottie animation is loaded
-    if (lottieRef.current) {
-      // Set the speed to double (2x)
-      lottieRef.current?.setSpeed(8);
-    }
-  }, [isFullScreen]);
 
   return (
     <div>
@@ -106,11 +98,10 @@ export default function Home() {
           >
             {animationData && (
               <Lottie
-              speed={8}
-                ref={lottieRef} // Attach the Lottie ref here
                 options={defaultOptions}
                 height={350}
                 width={350}
+                speed={100}
                 eventListeners={[
                   {
                     eventName: 'complete',
